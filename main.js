@@ -1,7 +1,8 @@
 const electron = require('electron')
-const {app, BrowserWindow} = electron
+const {app, BrowserWindow, dialog} = electron
 const path = require('path')
 const url = require('url')
+const fs = require('fs')
 
 let mainWindow
 
@@ -21,6 +22,7 @@ function createWindow(){
 
     mainWindow.once('ready-to-show', ()=>{
         mainWindow.show()
+        getFileFromUser()
     })
 
     mainWindow.on('close', function(){
@@ -31,3 +33,16 @@ function createWindow(){
 app.on('ready', ()=>{
     createWindow()
 })
+
+//creating a getFileFromUser()
+const getFileFromUser = () =>{
+    const files = dialog.showOpenDialog({
+        properties:['openFile']
+    })
+
+    if(!files){
+        return
+    }
+
+    console.log(files)
+}
