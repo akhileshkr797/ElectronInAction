@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/akhileshkr797/ElectronInAction/issues"
   },
-  "homepage": "https://github.com/akhileshkr797/ElectronInAction#readme"
+  "homepage": "https://github.com/akhileshkr797/ElectronInAction#readme",
+  "dependencies": {
+    "marked": "^0.6.2"
+  }
 }
