@@ -36,13 +36,17 @@ app.on('ready', ()=>{
 
 //creating a getFileFromUser()
 const getFileFromUser = () =>{
-    const files = dialog.showOpenDialog({
-        properties:['openFile']
+    const files = dialog.showOpenDialog( {
+        properties:['openFile'],
+        filters:[
+            {name: 'Text Files', extensions: ['txt']}
+        ]
     })
 
-    if(!files){
-        return
-    }
+    if(!files){return}
 
-    console.log(files)
+    const file = files[0]
+    const content = fs.readFileSync(file).toString()
+
+    console.log(content)
 }
