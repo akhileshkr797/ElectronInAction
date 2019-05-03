@@ -1,5 +1,5 @@
 const electron = require('electron')
-const {app, BrowserWindow, dialog} = electron
+const {app, BrowserWindow, dialog, webContents} = electron
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
@@ -22,7 +22,7 @@ function createWindow(){
 
     mainWindow.once('ready-to-show', ()=>{
         mainWindow.show()
-        getFileFromUser()
+        //getFileFromUser() //open-file when mainWindow is created
     })
 
     mainWindow.on('close', function(){
@@ -33,7 +33,7 @@ function createWindow(){
 app.on('ready', ()=>{
     createWindow()
 })
-
+/*
 //creating a getFileFromUser()
 const getFileFromUser = () =>{
     const files = dialog.showOpenDialog( {
@@ -49,4 +49,41 @@ const getFileFromUser = () =>{
     const content = fs.readFileSync(file).toString()
 
     console.log(content)
+}
+
+//communicating main with renderer
+const getFileFromUser = exports.getFileFromUser = () =>{
+    const files = dialog.showOpenDialog(mainWindow, {
+        properties: ['openFile'],
+        filters: [
+            {name: 'Text Files', extensions:['txt']},
+            {name: 'markdown Files', extensions:['markdown']}
+        ]
+    })
+
+    if(!files){return}
+
+    const file = files[0]
+    const content = fs.readFileSync(file).toString()
+}
+
+*/
+
+//sending content from main Process to Renderer process
+
+const getFileFromUser = exports.getFileFromUser = () =>{
+    const files = dialog.showOpenDialog(mainWindow, {
+        properties:['openFile'],
+        filters:[
+            {name: ['openFile'], extensions:['txt'] },
+            {name: ['markdown'], extensions:['markdown']}
+        ]
+    })
+
+    if(files){openFile(files[0])}
+}
+
+const openFile = (file) =>{
+    const content = fs.readFileSync(file).toString()
+    mainWindow.webContents.send('file-opened', file, content)
 }
