@@ -50,6 +50,7 @@ openFileButton.addEventListener('click', ()=>{
 const {remote, ipcRenderer} = require('electron')
 const mainProcss = remote.require('./main.js')
 
+/*
 //Trigger getFileFromUser() in main.js from UI
 openFileButton.addEventListener('click', ()=>{
     mainProcss.getFileFromUser()
@@ -60,3 +61,23 @@ ipcRenderer.on('file-opened', (event, file, content)=>{
     markdownView.value = content
     renderMarkdownToHtml(content)
 })
+*/
+
+//getting reference to the current window
+const currentWindow = remote.getCurrentWindow()
+//passing reference to the current Window
+openFileButton.addEventListener('click', ()=>{
+    mainProcss.getFileFromUser(currentWindow)
+})
+
+//adding listener to newFileButton
+newFileButton.addEventListener('click', ()=>{
+    mainProcss.createWindow()
+})
+
+ipcRenderer.on('file-opened', (event, file, content)=>{
+    markdownView.value = content
+    renderMarkdownToHtml(content)
+})
+
+
