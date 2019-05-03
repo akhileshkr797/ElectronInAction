@@ -1,38 +1,19 @@
 const electron = require('electron')
-const {app, BrowserWindow, dialog, webContents} = electron
+const { app, BrowserWindow, dialog, webContents, } = electron
 const path = require('path')
 const url = require('url')
 const fs = require('fs')
 
-let mainWindow
-
-function createWindow(){
-    mainWindow = new BrowserWindow({
-        show:false,
-        width:1300,
-        height:800,
-        title:'mainWindow'
-    })
-
-    mainWindow.loadURL(url.format({
-        pathname:path.join(__dirname, 'index.html'),
-        protocol:'file:',
-        slashes:true
-    }))
-
-    mainWindow.once('ready-to-show', ()=>{
-        mainWindow.show()
-        //getFileFromUser() //open-file when mainWindow is created
-    })
-
-    mainWindow.on('close', function(){
-        mainWindow = null
-    })
-}
-
-app.on('ready', ()=>{
-    createWindow()
-})
+app.on('ready', () => {
+    mainWindow = new BrowserWindow({ show: false });
+    mainWindow.loadFile('index.html');
+    mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+    });
+    mainWindow.on('closed', () => {
+        mainWindow = null;
+    });
+});
 /*
 //creating a getFileFromUser()
 const getFileFromUser = () =>{
@@ -71,25 +52,24 @@ const getFileFromUser = exports.getFileFromUser = () =>{
 
 //sending content from main Process to Renderer process
 
-const getFileFromUser = exports.getFileFromUser = () =>{
+const getFileFromUser = exports.getFileFromUser = () => {
     const files = dialog.showOpenDialog(mainWindow, {
-        properties:['openFile'],
+        properties: ['openFile'],
         title: 'OHM Systems Inc',
-        filters:[
-            {name: ['Text File'], extensions:['txt'] },
-            {name}
-            /*
-            {name: ['Microsoft Excel Worksheet'], extensions:['xls']},
-            {name: ['Microsoft Excel 97-2003 Worksheet'], extensions:['xls']},
-            */
-            {name: ['markdown'], extensions:['markdown']}
+        filters: [
+            { name: ['Text File'], extensions: ['txt'] },
+            { name: ['markdown'], extensions: ['markdown'] }
         ]
     })
 
-    if(files){openFile(files[0])}
+    if (files) { openFile(files[0]) }
 }
 
-const openFile = (file) =>{
+const openFile = (file) => {
     const content = fs.readFileSync(file).toString()
     mainWindow.webContents.send('file-opened', file, content)
 }
+
+//creating and managing multiple windows
+//creating a Set to keep track of new windows
+//SETS are a new Data Structure to JS
