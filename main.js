@@ -75,7 +75,11 @@ const getFileFromUser = exports.getFileFromUser = () =>{
     const files = dialog.showOpenDialog(mainWindow, {
         properties:['openFile'],
         filters:[
-            {name: ['openFile'], extensions:['txt'] },
+            {name: ['Text File'], extensions:['txt'] },
+            /*
+            {name: ['Microsoft Excel Worksheet'], extensions:['xls']},
+            {name: ['Microsoft Excel 97-2003 Worksheet'], extensions:['xls']},
+            */
             {name: ['markdown'], extensions:['markdown']}
         ]
     })
