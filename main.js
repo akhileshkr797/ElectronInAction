@@ -74,8 +74,10 @@ const getFileFromUser = exports.getFileFromUser = () =>{
 const getFileFromUser = exports.getFileFromUser = () =>{
     const files = dialog.showOpenDialog(mainWindow, {
         properties:['openFile'],
+        title: 'OHM Systems Inc',
         filters:[
             {name: ['Text File'], extensions:['txt'] },
+            {name}
             /*
             {name: ['Microsoft Excel Worksheet'], extensions:['xls']},
             {name: ['Microsoft Excel 97-2003 Worksheet'], extensions:['xls']},
